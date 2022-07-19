@@ -3,6 +3,15 @@ name: Task
 on:
   workflow_dispatch:
     inputs:
+    
+      Team:
+        type: choice
+        description: Choose a Team
+        options:
+        - Byjus-Dev
+        - Byjus-Prod
+        - Byjus-Stagging
+    
       Task:
         type: choice
         description: Choose a Task
