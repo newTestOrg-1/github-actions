@@ -35,6 +35,10 @@ on:
       
 jobs:
 
+  Check-user-job: 
+    runs-on: ubuntu-latest 
+    if: ${{ wf_triggered_user.user_group == "Byjus-Dev" }}
+
   Task:
     runs-on: [ ubuntu-latest]
     permissions:
