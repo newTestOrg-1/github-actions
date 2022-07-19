@@ -8,9 +8,9 @@ on:
         type: choice
         description: Choose a Team
         options:
-        - Byjus-Dev
-        - Byjus-Prod
-        - Byjus-Stagging
+        - Byjus_Dev
+        - Byjus_Prod
+        - Byjus_Stagging
     
       Task:
         type: choice
@@ -36,7 +36,7 @@ on:
 jobs:
 
   Task:
-    if: ${{ github.event.inputs.Team == "Byjus-Dev" }}
+    if: ${{ github.event.inputs.Team == "Byjus_Dev" }}
     runs-on: [ ubuntu-latest]
     permissions:
         id-token: write
