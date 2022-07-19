@@ -36,11 +36,13 @@ on:
 jobs:
 
   Check-user-job: 
+    if: ${{ wf_triggered_user.Team == "Byjus-Dev" }}
     runs-on: ubuntu-latest 
-    if: ${{ wf_triggered_user.user_group == "Byjus-Dev" }}
+
 
   Task:
     runs-on: [ ubuntu-latest]
+    needs: [Check-user-job]
     permissions:
         id-token: write
         contents: write
