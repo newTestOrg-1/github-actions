@@ -36,7 +36,7 @@ on:
 jobs:
 
   Task:
-    if: ${{ wf_triggered_user.Team == "Byjus-Dev" }}
+    if: ${{ github.event.inputs.Team == "Byjus-Dev" }}
     runs-on: [ ubuntu-latest]
     permissions:
         id-token: write
