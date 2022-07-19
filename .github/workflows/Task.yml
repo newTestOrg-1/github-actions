@@ -35,12 +35,8 @@ on:
       
 jobs:
 
-  Check-user-job: 
-    if: ${{ wf_triggered_user.Team == "Byjus-Dev" }}
-    runs-on: ubuntu-latest 
-
-
   Task:
+    if: ${{ wf_triggered_user.Team == "Byjus-Dev" }}
     runs-on: [ ubuntu-latest]
     needs: [Check-user-job]
     permissions:
