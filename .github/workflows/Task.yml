@@ -8,9 +8,11 @@ on:
         type: choice
         description: Choose a Team
         options:
+        - BLC
         - Byjus_Dev
-        - Byjus_Prod
         - Byjus_Stagging
+        - Dev_Roy
+        - PR
     
       Task:
         type: choice
@@ -42,14 +44,7 @@ jobs:
         contents: write
     steps:
      - name: TeamCheck
-       uses: tspascoal/get-user-teams-membership@v1
-       id: checkUserMember
-       with:
-          username: ${{ github.actor }}
-          team: 'Byjus-Dev'
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
-       if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
+       if: ${{ github.event.inputs.Team == 'BLC' && contains(github.event.inputs.Secret_Name, 'K-12'} || { github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3'} || { github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'}}
      - name: "Configure AWS Credentials"
        uses: aws-actions/configure-aws-credentials@v1
        with:
