@@ -41,9 +41,9 @@ jobs:
     
   
     if: |
-      github.event.inputs.Team == 'Byjus_Prod' && contains(github.event.inputs.Secret_Name, 'K-12'
-       || github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3'
-       || github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'
+      (github.event.inputs.Team == 'Byjus_Prod' && contains(github.event.inputs.Secret_Name, 'K-12')
+       || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3')
+       || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep')
        
     runs-on: [ubuntu-latest]
     permissions:
