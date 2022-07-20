@@ -8,9 +8,9 @@ on:
         type: choice
         description: Choose a Team
         options:
-        - Byjus_Prod
-        - Byjus_Dev
-        - Byjus_Stagging
+        - Byjus-Prod
+        - Byjus-Dev
+        - Byjus-Stagging
         - Dev_Roy
         - PR
     
