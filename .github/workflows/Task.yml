@@ -53,8 +53,8 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.PAT }} 
         if: |
          (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12'))
-         || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'k3'))
-         || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'))
+         || (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k3'))
+         || (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'))
 
       - name: "Configure AWS Credentials"
         if: success() ||failure()
