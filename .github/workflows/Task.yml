@@ -8,7 +8,7 @@ on:
         type: choice
         description: Choose a Team
         options:
-        - BLC
+        - Byjus_Prod
         - Byjus_Dev
         - Byjus_Stagging
         - Dev_Roy
@@ -41,7 +41,7 @@ jobs:
     
   
     if: |
-      (github.event.inputs.Team == 'BLC' && contains(github.event.inputs.Secret_Name, 'K-12')
+      (github.event.inputs.Team == 'Byjus_Prod' && contains(github.event.inputs.Secret_Name, 'K-12')
        || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3')
        || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep')
        
