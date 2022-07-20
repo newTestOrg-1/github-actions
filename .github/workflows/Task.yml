@@ -46,7 +46,7 @@ jobs:
        id: checkUserMember
        with:
           username: ${{ github.actor }}
-          team: Team
+          team: 'Byjus-Dev'
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
        if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
