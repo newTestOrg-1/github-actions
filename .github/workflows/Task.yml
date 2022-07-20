@@ -49,11 +49,11 @@ jobs:
         id: checkUserMember
         with:
             username: ${{ github.actor }}
-            team: ${{ github.event.inputs.Team }}
+            team: 'Byjus-Prod'
             GITHUB_TOKEN: ${{ secrets.PAT }} 
-      - if: {{steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12'))
-         || (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k3'))
-         || (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'byjus-testprep')}}
+            
+      - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12')
+ 
 
         name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
@@ -64,22 +64,22 @@ jobs:
           aws-region: ap-southeast-1
           role-skip-session-tagging: true
 
-        name: CREATE
+      - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
         run:
             aws secretsmanager create-secret --name ${{ github.event.inputs.Secret_Name}} --secret-string '{"${{ github.event.inputs.Key1}}":"${{ github.event.inputs.Value1}}", "${{ github.event.inputs.Key2}}":"${{ github.event.inputs.Value2}}", "${{ github.event.inputs.Key3}}":"${{ github.event.inputs.Value3}}"}' 
 
-        name: GET    
-        if: ${{ github.event.inputs.Task == 'GET' && success() ||failure() }}
+      - name: GET    
+        if: ${{ github.event.inputs.Task == 'GET' }}
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
-        name: UPDATE   
+      - name: UPDATE   
         id: update
-        if: ${{ github.event.inputs.Task == 'UPDATE' && success() ||failure() }}
+        if: ${{ github.event.inputs.Task == 'UPDATE' }}
         run:
             aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
-        name: UPDATE_NOW   
-        if: steps.update.outcome=='success' && (success() ||failure())
+      - name: UPDATE_NOW   
+        if: steps.update.outcome=='success'
         run:
             aws secretsmanager update-secret --secret-id ${{github.event.inputs.Secret_Name}} --secret-string '{"${{ github.event.inputs.Key1}}":"${{ github.event.inputs.Value1}}", "${{ github.event.inputs.Key2}}":"${{ github.event.inputs.Value2}}", "${{ github.event.inputs.Key3}}":"${{ github.event.inputs.Value3}}"}'
