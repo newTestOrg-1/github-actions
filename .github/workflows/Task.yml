@@ -49,13 +49,12 @@ jobs:
         id: checkUserMember
         with:
             username: ${{ github.actor }}
-            team: ${{ github.event.inputs.Task }}
+            team: ${{ github.event.inputs.Team }}
             GITHUB_TOKEN: ${{ secrets.PAT }} 
         if: |
-          (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12'))
-           || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'k3'))
-           || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'))
-
+         (steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12'))
+         || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'k3'))
+         || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'))
 
           - name: "Configure AWS Credentials"
             uses: aws-actions/configure-aws-credentials@v1
