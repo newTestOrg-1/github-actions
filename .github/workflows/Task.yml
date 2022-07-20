@@ -44,7 +44,10 @@ jobs:
         contents: write
     steps:
      - name: TeamCheck
-       if: ${{ github.event.inputs.Team == 'BLC' && contains(github.event.inputs.Secret_Name, 'K-12'} || { github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3'} || { github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep'}}
+       if: |
+        (github.event.inputs.Team == 'BLC' && contains(github.event.inputs.Secret_Name, 'K-12')
+         || (github.event.inputs.Team == 'Byjus_Dev' && contains(github.event.inputs.Secret_Name, 'K-3')
+         || (github.event.inputs.Team == 'Byjus_Stagging' && contains(github.event.inputs.Secret_Name, 'byjus-testprep')
      - name: "Configure AWS Credentials"
        uses: aws-actions/configure-aws-credentials@v1
        with:
