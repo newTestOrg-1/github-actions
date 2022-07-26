@@ -65,9 +65,11 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ap-southeast-1
           role-skip-session-tagging: true
-
+      
+      - uses: actions/setup-python@v2
       - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
+        uses: jannekem/run-python-script-action@v1
         with: 
           script: |
             import boto3
