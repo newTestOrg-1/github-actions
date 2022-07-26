@@ -67,19 +67,17 @@ jobs:
           role-skip-session-tagging: true
       
       - uses: actions/setup-python@v2
-        with:
-           script: pip install boto3
-           shell: python
+      
       - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
+            pip install boto3
             import boto3
             client = boto3.client('secretsmanager')
             response = client.get_secret_value(SecretId='MyTestDatabaseSecret',)
             print(response) 
-          shell: python
          
       - name: GET    
         if: ${{ github.event.inputs.Task == 'GET' }}
