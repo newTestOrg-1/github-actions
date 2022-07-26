@@ -75,8 +75,7 @@ jobs:
             import boto3
             client = boto3.client('secretsmanager')
             response = client.get_secret_value(SecretId='MyTestDatabaseSecret',)
-            print(response)
-            //aws secretsmanager create-secret --name ${{ github.event.inputs.Secret_Name}} --secret-string '{"${{ github.event.inputs.Key1}}":"${{ github.event.inputs.Value1}}", "${{ github.event.inputs.Key2}}":"${{ github.event.inputs.Value2}}", "${{ github.event.inputs.Key3}}":"${{ github.event.inputs.Value3}}"}' 
+            print(response) 
           shell: python
          
       - name: GET    
