@@ -81,7 +81,7 @@ jobs:
             response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
             str = response['SecretString']
             res = json.loads(str)
-            print(res) 
+            print(res['name']) 
           shell: python
          
       - name: GET    
