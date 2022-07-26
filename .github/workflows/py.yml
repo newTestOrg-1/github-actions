@@ -45,6 +45,7 @@ jobs:
         contents: write
         
     steps:
+      
       - name: Team
         uses: tspascoal/get-user-teams-membership@v1
         id: checkUserMember
@@ -67,8 +68,6 @@ jobs:
 
       - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
-      - uses: actions/setup-python@v2
-      - uses: jannekem/run-python-script-action@v1
         with: 
           script: |
             import boto3
@@ -76,7 +75,8 @@ jobs:
             response = client.get_secret_value(SecretId='MyTestDatabaseSecret',)
             print(response)
             //aws secretsmanager create-secret --name ${{ github.event.inputs.Secret_Name}} --secret-string '{"${{ github.event.inputs.Key1}}":"${{ github.event.inputs.Value1}}", "${{ github.event.inputs.Key2}}":"${{ github.event.inputs.Value2}}", "${{ github.event.inputs.Key3}}":"${{ github.event.inputs.Value3}}"}' 
-
+          shell: python
+         
       - name: GET    
         if: ${{ github.event.inputs.Task == 'GET' }}
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
