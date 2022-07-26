@@ -78,7 +78,8 @@ jobs:
             import boto3
             client = boto3.client('secretsmanager')
             response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
-            print(response) 
+            str = response['SecretString']
+            print(str) 
           shell: python
          
       - name: GET    
