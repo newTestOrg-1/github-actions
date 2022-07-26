@@ -73,7 +73,7 @@ jobs:
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
-            pip install boto3
+            install boto3
             import boto3
             client = boto3.client('secretsmanager')
             response = client.get_secret_value(SecretId='MyTestDatabaseSecret',)
