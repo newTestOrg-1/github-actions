@@ -68,7 +68,7 @@ jobs:
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
         run:
             #!/bin/bash
-            y="Rule"
+            y='Rule'
             x=$(aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}} | jq '.Rules[]') jq -nr --arg y "$y" --arg x "$x" '[$y, $x] | @csv' > sample.csv
             
             echo "${x}" | jq '.'
