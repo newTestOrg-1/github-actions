@@ -84,14 +84,14 @@ jobs:
             str = response['SecretString']
             res = json.loads(str)
             
-            if len('${{ github.event.inputs.Key1}}') == 0 and res.get('${{ github.event.inputs.Key1}}') == None:
-              print(key1)
+            
+            if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
               res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
             
-            if len('${{ github.event.inputs.Key2}}') == 0 and res.get('${{ github.event.inputs.Key2}}') == None:
+            if len('${{ github.event.inputs.Key2}}') != 0 and res.get('${{ github.event.inputs.Key2}}') == None:
               res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
           
-            if len('${{ github.event.inputs.Key3}}') == 0 and res.get('${{ github.event.inputs.Key3}}') == None:
+            if len('${{ github.event.inputs.Key3}}') != 0 and res.get('${{ github.event.inputs.Key3}}') == None:
               res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
             
             ans = json.dumps(res)
