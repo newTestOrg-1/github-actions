@@ -67,6 +67,9 @@ jobs:
           role-skip-session-tagging: true
       
       - uses: actions/setup-python@v2
+        with:
+           script: pip install boto3
+           shell: python
       - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
         uses: jannekem/run-python-script-action@v1
