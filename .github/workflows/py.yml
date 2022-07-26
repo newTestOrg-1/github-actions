@@ -92,7 +92,7 @@ jobs:
               res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
             
             response = client.create_secret(Name='${{ github.event.inputs.Secret_Name}}',SecretString='json.dumps(res)',
-              Description='${{ github.event.inputs.Description}}')
+              Description='${{ github.event.inputs.Description}}',AddReplicaRegions=[{'Region': 'ap-southeast-1'}])
 
           shell: python
          
