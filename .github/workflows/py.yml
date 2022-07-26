@@ -78,7 +78,7 @@ jobs:
             import boto3
             import json
             client = boto3.client('secretsmanager')
-            response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
+            response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}', AddReplicaRegions=[{'Region': 'ap-southeast-1'}])
             str = response['SecretString']
             res = json.loads(str)
             
