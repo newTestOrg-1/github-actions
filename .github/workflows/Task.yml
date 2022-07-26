@@ -37,9 +37,9 @@ on:
 
 env:
   result: ""
+  k1: "{github.event.inputs.key1}={github.event.inputs.value1}"
 
 jobs:
-
   Task:
     runs-on: [ubuntu-latest]
     permissions:
@@ -80,7 +80,7 @@ jobs:
       - name: CREATE_ADD
         if: steps.create.outcome=='success'
         run: file1.py
-        
+             aws secretsmanager create-secret --name ${{ github.event.inputs.Secret_Name}} --secret-string file://result.json
         
       - name: CREATE_ONLY
         if: steps.create.outcome=='FAILURE'
