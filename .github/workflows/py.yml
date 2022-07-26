@@ -91,7 +91,7 @@ jobs:
             if( (len('${{ github.event.inputs.Key3}}') == 0) and (res.get('${{ github.event.inputs.Key3}}') == None)):
               res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
             
-            response = client.update_secret(SecretId=='${{ github.event.inputs.Secret_Name}}',SecretString='json.dumps(res)',
+            response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}',SecretString='json.dumps(res)',
               Description='${{ github.event.inputs.Description}}',AddReplicaRegions=[{'Region': 'ap-southeast-1'}])
 
           shell: python
