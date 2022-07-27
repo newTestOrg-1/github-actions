@@ -122,12 +122,48 @@ jobs:
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
       - name: UPDATE   
-        id: update
-        if: ${{ github.event.inputs.Task == 'UPDATE' }}
-        run:
-            aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
+        if: ${{ github.event.inputs.Task == 'UPDATE' && success() ||failure() }}
+        uses: jannekem/run-python-script-action@v1
+        with: 
+          script: |
+            import boto3
+            import json
+            import os
+            import botocore
+            
+            
+            client = boto3.client('secretsmanager', aws_access_key_id= '${{ secrets.AWS_ACCESS_KEY_ID }}', aws_secret_access_key= '${{ secrets.AWS_SECRET_ACCESS_KEY }}', aws_session_token='${{ secrets.AWS_SESSION_TOKEN }}', region_name='ap-southeast-1')
+            
+            try:
+                response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
+                str = response['SecretString']
+                res = json.loads(str)
 
-      - name: UPDATE_NOW   
-        if: steps.update.outcome=='success'
-        run:
-            aws secretsmanager update-secret --secret-id ${{github.event.inputs.Secret_Name}} --secret-string '{"${{ github.event.inputs.Key1}}":"${{ github.event.inputs.Value1}}", "${{ github.event.inputs.Key2}}":"${{ github.event.inputs.Value2}}", "${{ github.event.inputs.Key3}}":"${{ github.event.inputs.Value3}}"}'
+
+                if len('${{ github.event.inputs.Key1}}') != 0:
+                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
+
+                if len('${{ github.event.inputs.Key2}}') != 0:
+                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
+
+                if len('${{ github.event.inputs.Key3}}') != 0:
+                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+
+                ans = json.dumps(res)
+                response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
+            
+            except :
+                res={}
+                if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
+                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
+
+                if len('${{ github.event.inputs.Key2}}') != 0 and res.get('${{ github.event.inputs.Key2}}') == None:
+                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
+
+                if len('${{ github.event.inputs.Key3}}') != 0 and res.get('${{ github.event.inputs.Key3}}') == None:
+                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+
+                ans = json.dumps(res)
+                response=client.create_secret(Name='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
+                
+          shell: python
