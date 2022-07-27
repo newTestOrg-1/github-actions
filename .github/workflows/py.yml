@@ -79,7 +79,7 @@ jobs:
             import json
             import os
             
-            client = boto3.client('secretsmanager',aws_access_key_id= "${{ secrets.AWS_ACCESS_KEY_ID }}", aws_secret_access_key= "${{ secrets.AWS_SECRET_ACCESS_KEY }}",aws_session_token="${{ secrets.AWS_SESSION_TOKEN }}",region_name='ap-southeast-1')
+            client = boto3.client('secretsmanager', aws_access_key_id= "${{ secrets.AWS_ACCESS_KEY_ID }}", aws_secret_access_key= "${{ secrets.AWS_SECRET_ACCESS_KEY }}", aws_session_token="${{ secrets.AWS_SESSION_TOKEN }}", region_name='ap-southeast-1')
             response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
             str = response['SecretString']
             res = json.loads(str)
@@ -95,9 +95,7 @@ jobs:
               res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
             
             ans = json.dumps(res)
-            response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}',SecretString=ans, Description='${{ github.event.inputs.Description}}')
-            
-            
+            response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
 
           shell: python
          
