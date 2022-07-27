@@ -101,7 +101,7 @@ jobs:
                 ans = json.dumps(res)
                 response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
             
-            except ClientError as e:
+            except :
                 res={}
                 if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
                   res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
