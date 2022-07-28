@@ -68,7 +68,7 @@ jobs:
       
          
       - name: CREATE
-        if: ${{ github.event.inputs.Task == 'CREATE' && (steps.check.outputs.isTeamMember == 'true' && (contains('${{github.event.inputs.Secret_Name}}', 'k12')) ) }}
+        if: ${{ github.event.inputs.Task == 'CREATE' && (steps.check.outputs.isTeamMember == 'true' && (contains(${{github.event.inputs.Secret_Name}}, 'k12')) ) }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
