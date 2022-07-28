@@ -51,7 +51,7 @@ jobs:
         id: checkUserMember
         with:
             username: ${{ github.actor }}
-            team: 'Byjus-Prod'
+            team: ['Byjus-Prod', 'Byjus-Dev']
             GITHUB_TOKEN: ${{ secrets.PAT }} 
             
       - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12')
@@ -88,12 +88,14 @@ jobs:
                 str = response['SecretString']
                 res = json.loads(str)
                 
-                key = '${{ github.event.inputs.Key1}}'
-                value = '${{ github.event.inputs.Value1}}'
+                key = 'github.event.inputs.Key'
+                value = 'github.event.inputs.Value'
                 
                 for i in range(1,4):
-                    if len(key + 'i') != 0 and res.get(key + 'i') == None:
-                      res[key + 'i'] = value + 'i'
+                    key = key+'i'
+                    value = value+'i'
+                    if len('${{key}}') != 0 and res.get('${{key}}') == None:
+                      res['${{key}}'] = '${{value}}'
 
                 ans = json.dumps(res)
                 response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
