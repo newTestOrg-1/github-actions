@@ -37,24 +37,30 @@ on:
       
 jobs:
 
+  CheckUserMember:
+    runs-on: [ubuntu-latest]
+    steps:
+        - name: Team
+          uses: tspascoal/get-user-teams-membership@v1
+          with:
+            username: ${{ github.actor }}
+            team: ${{github.event.inputs.Team}}
+            GITHUB_TOKEN: ${{ secrets.PAT }}       
+     
+        - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains('${{github.event.inputs.Secret_Name}}', 'k12')
+          run: exit 1
+    
+
   Task:
     runs-on: [ubuntu-latest]
+    needs: CheckUserMember
     permissions:
         id-token: write
         contents: write
         
     steps:
       
-      - name: Team
-        uses: tspascoal/get-user-teams-membership@v1
-        with:
-            username: ${{ github.actor }}
-            team: ${{github.event.inputs.Team}}
-            GITHUB_TOKEN: ${{ secrets.PAT }}       
-     
-      - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains('${{github.event.inputs.Secret_Name}}', 'k12')
-        id: checkUserMember
-        name: "Configure AWS Credentials"
+      - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
         continue-on-error: false
         with:
