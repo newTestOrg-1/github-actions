@@ -47,14 +47,13 @@ jobs:
       
       - name: Team
         uses: tspascoal/get-user-teams-membership@v1
-        id: checkUserMember
         with:
             username: ${{ github.actor }}
             team: 'Byjus-Prod'
             GITHUB_TOKEN: ${{ secrets.PAT }} 
             
       - if: steps.checkUserMember.outputs.isTeamMember == 'true' && !(contains(github.event.inputs.Secret_Name, 'k12'))
-        run: exit 1 
+        id: checkUserMember
 
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
@@ -70,7 +69,7 @@ jobs:
         run:  pip3 install boto3
          
       - name: CREATE
-        if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
+        if: ${{ github.event.inputs.Task == 'CREATE' && steps.checkUserMember.outcome=='success' }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
@@ -109,11 +108,11 @@ jobs:
           shell: python
          
       - name: GET    
-        if: ${{ github.event.inputs.Task == 'GET' }}
+        if: ${{ github.event.inputs.Task == 'GET' && steps.checkUserMember.outcome=='success'}}
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
       - name: UPDATE   
-        if: ${{ github.event.inputs.Task == 'UPDATE' && success() ||failure() }}
+        if: ${{ github.event.inputs.Task == 'UPDATE' && steps.checkUserMember.outcome=='success' }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
