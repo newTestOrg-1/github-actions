@@ -68,7 +68,7 @@ jobs:
       
          
       - name: CREATE
-        if: ${{ github.event.inputs.Task == 'CREATE' && (steps.check.outputs.isTeamMember == 'true' && (contains(${{github.event.inputs.Secret_Name}}, 'k12')) ) }}
+        if: ${{ github.event.inputs.Task == 'CREATE' && steps.check.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12') }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
@@ -107,11 +107,11 @@ jobs:
           shell: python
          
       - name: GET    
-        if: ${{ github.event.inputs.Task == 'GET' && (steps.check.outputs.isTeamMember == 'true' && (contains('${{github.event.inputs.Secret_Name}}', 'k12')) ) }}
+        if: ${{ github.event.inputs.Task == 'GET' && steps.check.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12') }}
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
       - name: UPDATE   
-        if: ${{ github.event.inputs.Task == 'UPDATE' && (steps.check.outputs.isTeamMember == 'true' && (contains('${{github.event.inputs.Secret_Name}}', 'k12')) ) }}
+        if: ${{ github.event.inputs.Task == 'UPDATE' && steps.check.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12') }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
