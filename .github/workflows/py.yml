@@ -64,6 +64,7 @@ jobs:
             role-skip-session-tagging: true
 
       - name: Install boto3
+        if: ${{ steps.checkUserMember.outcome=='success' }}
         shell: bash
         run:  pip3 install boto3
          
