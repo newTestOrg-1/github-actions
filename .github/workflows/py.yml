@@ -48,7 +48,7 @@ jobs:
         
             
       - name: Team
-        if: steps.checkUserMember.outputs.isTeamMember == 'false' && !(contains(github.event.inputs.Secret_Name, 'k12'))
+        if: steps.checkUserMember.outputs.isTeamMember == 'true' && (contains(github.event.inputs.Secret_Name, 'k12'))
         id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
         with:
