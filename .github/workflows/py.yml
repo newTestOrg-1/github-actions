@@ -48,6 +48,7 @@ jobs:
         
             
       - name: Team
+        if: steps.checkUserMember.outputs.isTeamMember == 'false' && !(contains(github.event.inputs.Secret_Name, 'k12'))
         id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
         with:
@@ -55,8 +56,7 @@ jobs:
             team: ${{github.event.inputs.Team}}
             GITHUB_TOKEN: ${{ secrets.PAT }} 
      
-      - if: steps.checkUserMember.outputs.isTeamMember == 'false' && !(contains(github.event.inputs.Secret_Name, 'k12'))
-        run : exit 
+         
          
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
