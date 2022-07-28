@@ -51,18 +51,18 @@ jobs:
         with:
             username: ${{ github.actor }}
             team: ${{github.event.inputs.Team}}
-            GITHUB_TOKEN: ${{ secrets.PAT }} 
-            
+            GITHUB_TOKEN: ${{ secrets.PAT }}       
+     
       - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains(github.event.inputs.Secret_Name, 'k12')
         name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: ap-southeast-1
-          role-skip-session-tagging: true
-      
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+            aws-region: ap-southeast-1
+            role-skip-session-tagging: true
+
       - name: Install boto3
         shell: bash
         run:  pip3 install boto3
