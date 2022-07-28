@@ -37,45 +37,40 @@ on:
       
 jobs:
 
-  CheckUserMember:
-    runs-on: [ubuntu-latest]
-    steps:
-        - name: Team
-          uses: tspascoal/get-user-teams-membership@v1
-          with:
-            username: ${{ github.actor }}
-            team: ${{github.event.inputs.Team}}
-            GITHUB_TOKEN: ${{ secrets.PAT }}       
-     
-        - if: steps.checkUserMember.outputs.isTeamMember == 'true' && contains('${{github.event.inputs.Secret_Name}}', 'k12')
-    
-
   Task:
     runs-on: [ubuntu-latest]
-    needs: CheckUserMember
     permissions:
         id-token: write
         contents: write
         
     steps:
       
+      - name: Team
+        uses: tspascoal/get-user-teams-membership@v1
+        id: checkUserMember
+        with:
+            username: ${{ github.actor }}
+            team: 'Byjus-Prod'
+            GITHUB_TOKEN: ${{ secrets.PAT }} 
+            
+      - if: steps.checkUserMember.outputs.isTeamMember == 'true' && !(contains(github.event.inputs.Secret_Name, 'k12'))
+        run: exit 1 
+
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
-        continue-on-error: false
         with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-            aws-region: ap-southeast-1
-            role-skip-session-tagging: true
-
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ap-southeast-1
+          role-skip-session-tagging: true
+      
       - name: Install boto3
-        if: ${{ steps.checkUserMember.outcome=='success' }}
         shell: bash
         run:  pip3 install boto3
          
       - name: CREATE
-        if: ${{ github.event.inputs.Task == 'CREATE' && steps.checkUserMember.outcome=='success' }}
+        if: ${{ github.event.inputs.Task == 'CREATE' && success() ||failure() }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
@@ -114,11 +109,11 @@ jobs:
           shell: python
          
       - name: GET    
-        if: ${{ github.event.inputs.Task == 'GET' && steps.checkUserMember.outcome=='success' }}
+        if: ${{ github.event.inputs.Task == 'GET' }}
         run: aws secretsmanager get-secret-value --secret-id ${{ github.event.inputs.Secret_Name}}
 
       - name: UPDATE   
-        if: ${{ github.event.inputs.Task == 'UPDATE' && steps.checkUserMember.outcome=='success' }}
+        if: ${{ github.event.inputs.Task == 'UPDATE' && success() ||failure() }}
         uses: jannekem/run-python-script-action@v1
         with: 
           script: |
