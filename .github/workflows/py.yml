@@ -87,30 +87,26 @@ jobs:
                 response = client.get_secret_value(SecretId = '${{ github.event.inputs.Secret_Name}}')
                 str = response['SecretString']
                 res = json.loads(str)
-
-
-                if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
-                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
-
-                if len('${{ github.event.inputs.Key2}}') != 0 and res.get('${{ github.event.inputs.Key2}}') == None:
-                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
-
-                if len('${{ github.event.inputs.Key3}}') != 0 and res.get('${{ github.event.inputs.Key3}}') == None:
-                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+                
+                key = '${{ github.event.inputs.Key1}}'
+                value = '${{ github.event.inputs.Value1}}'
+                
+                for i in range(1,4):
+                    if len(key + 'i') != 0 and res.get(key + 'i') == None:
+                      res[key + 'i'] = Value + 'i'
 
                 ans = json.dumps(res)
                 response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
             
             except :
                 res={}
-                if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
-                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
-
-                if len('${{ github.event.inputs.Key2}}') != 0 and res.get('${{ github.event.inputs.Key2}}') == None:
-                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
-
-                if len('${{ github.event.inputs.Key3}}') != 0 and res.get('${{ github.event.inputs.Key3}}') == None:
-                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+                
+                key = '${{ github.event.inputs.Key1}}'
+                value = '${{ github.event.inputs.Value1}}'
+                
+                for i in range(1,4):
+                    if len(key + 'i') != 0 and res.get(key + 'i') == None:
+                      res[key + 'i'] = Value + 'i'
 
                 ans = json.dumps(res)
                 response=client.create_secret(Name='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
@@ -139,29 +135,25 @@ jobs:
                 str = response['SecretString']
                 res = json.loads(str)
 
-
-                if len('${{ github.event.inputs.Key1}}') != 0:
-                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
-
-                if len('${{ github.event.inputs.Key2}}') != 0:
-                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
-
-                if len('${{ github.event.inputs.Key3}}') != 0:
-                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+                key = '${{ github.event.inputs.Key1}}'
+                value = '${{ github.event.inputs.Value1}}'
+                
+                for i in range(1,4):
+                    if len(key + 'i') != 0 and res.get(key + 'i') == None:
+                      res[key + 'i'] = Value + 'i'
 
                 ans = json.dumps(res)
                 response = client.update_secret(SecretId='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
             
             except :
                 res={}
-                if len('${{ github.event.inputs.Key1}}') != 0 and res.get('${{ github.event.inputs.Key1}}') == None:
-                  res['${{ github.event.inputs.Key1}}'] = '${{ github.event.inputs.Value1}}'
-
-                if len('${{ github.event.inputs.Key2}}') != 0 and res.get('${{ github.event.inputs.Key2}}') == None:
-                  res['${{ github.event.inputs.Key2}}'] = '${{ github.event.inputs.Value2}}'
-
-                if len('${{ github.event.inputs.Key3}}') != 0 and res.get('${{ github.event.inputs.Key3}}') == None:
-                  res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
+                
+                key = '${{ github.event.inputs.Key1}}'
+                value = '${{ github.event.inputs.Value1}}'
+                
+                for i in range(1,4):
+                    if len(key + 'i') != 0 and res.get(key + 'i') == None:
+                      res[key + 'i'] = Value + 'i'
 
                 ans = json.dumps(res)
                 response=client.create_secret(Name='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
