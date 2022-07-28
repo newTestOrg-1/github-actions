@@ -48,13 +48,14 @@ jobs:
         
             
       - name: Team
+        id: check
         uses: tspascoal/get-user-teams-membership@v1
         with:
             username: ${{ github.actor }}
             team: ${{github.event.inputs.Team}}
             GITHUB_TOKEN: ${{ secrets.PAT }} 
      
-      - if: steps.checkUserMember.outputs.isTeamMember == 'true' && (contains(${{github.event.inputs.Secret_Name}}, 'k12')) 
+      - if: steps.check.outputs.isTeamMember == 'true' && (contains(${{github.event.inputs.Secret_Name}}, 'k12')) 
         name: Install boto3
         id:  checkUserMember
         shell: bash
