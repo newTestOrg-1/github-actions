@@ -48,16 +48,18 @@ jobs:
         
             
       - name: Team
-        if: steps.checkUserMember.outputs.isTeamMember == 'true' && (contains(github.event.inputs.Secret_Name, 'k12'))
-        id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
         with:
             username: ${{ github.actor }}
             team: ${{github.event.inputs.Team}}
             GITHUB_TOKEN: ${{ secrets.PAT }} 
      
-         
-         
+      - if: steps.checkUserMember.outputs.isTeamMember == 'true' && (contains(github.event.inputs.Secret_Name, 'k12')) 
+        name: Install boto3
+        id:  checkUserMember
+        shell: bash
+        run:  pip3 install boto3
+        
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -67,9 +69,6 @@ jobs:
           aws-region: ap-southeast-1
           role-skip-session-tagging: true
       
-      - name: Install boto3
-        shell: bash
-        run:  pip3 install boto3
          
       - name: CREATE
         if: ${{ github.event.inputs.Task == 'CREATE' && steps.checkUserMember.outcome=='success' }}
