@@ -90,7 +90,10 @@ jobs:
                   res['${{ github.event.inputs.Key3}}'] = '${{ github.event.inputs.Value3}}'
                 ans = json.dumps(res)
                 response=client.create_secret(Name='${{ github.event.inputs.Secret_Name}}', SecretString=ans, Description='${{ github.event.inputs.Description}}')
-                
+            
+            except:
+                exit()
+            
           shell: python
          
       - name: GET    
