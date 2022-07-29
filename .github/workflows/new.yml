@@ -149,5 +149,5 @@ jobs:
                 
           shell: python
       
-      - if: ${{ steps.check.outputs.isTeamMember == 'false' && !contains(github.event.inputs.Secret_Name, 'k12') }}
+      - if: ${{ steps.check.outputs.isTeamMember == 'false' || !contains(github.event.inputs.Secret_Name, 'k12') }}
         run: exit 1    
